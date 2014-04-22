@@ -85,6 +85,8 @@ public class HudViewController extends ViewController
 	private static final int LOGO                 = 15;
 	private static final int STATUS_BAR           = 16;
 	
+	private static final int TROTTLE_TEXT_VIEW      = 17;
+	
 	private final float  BEGINNER_ELEVATOR_CHANNEL_RATIO  = 0.5f;
 	private final float  BEGINNER_AILERON_CHANNEL_RATIO   = 0.5f;
 	private final float  BEGINNER_RUDDER_CHANNEL_RATIO    = 0.0f;
@@ -98,6 +100,8 @@ public class HudViewController extends ViewController
 	private ToggleButton altHoldToggleBtn;
 	
 	private Text stateTextView;
+	
+	private Text trottleTextView;
 	
 	private boolean isAltHoldMode;
 	private boolean isAccMode;
@@ -221,6 +225,14 @@ public class HudViewController extends ViewController
 		stateTextView.setTypeface(FontUtils.TYPEFACE.Helvetica(context));
 		stateTextView.setTextSize(res.getDimensionPixelSize(R.dimen.hud_state_text_size));
 		
+		
+		String trottle = "0";
+		trottleTextView = new Text(context, trottle, Align.TOP_LEFT);
+		trottleTextView.setMargin((int)res.getDimension(R.dimen.hud_trottle_text_margin_top), 0, 0, (int)res.getDimension(R.dimen.hud_trottle_text_margin_left));
+		trottleTextView.setTextColor(Color.WHITE);
+		trottleTextView.setTypeface(FontUtils.TYPEFACE.Helvetica(context));
+		trottleTextView.setTextSize(res.getDimensionPixelSize(R.dimen.hud_state_text_size));
+		
 		int batteryIndicatorRes[] = {R.drawable.btn_battery_0,
 				R.drawable.btn_battery_1,
 				R.drawable.btn_battery_2,
@@ -260,8 +272,8 @@ public class HudViewController extends ViewController
 		renderer.addSprite(SETTINGS_BTN_ID, settingsBtn);
 		renderer.addSprite(ALT_HOLD_TOGGLE_BTN, altHoldToggleBtn);
 		renderer.addSprite(STATE_TEXT_VIEW, stateTextView);
-		//renderer.addSprite(HELP_BTN, helpBtn);
-		
+		renderer.addSprite(HELP_BTN, helpBtn);
+		renderer.addSprite(TROTTLE_TEXT_VIEW, trottleTextView);
 		
 		isAccMode = settings.isAccMode();
 		deviceOrientationManager = new DeviceOrientationManager(new DeviceSensorManagerWrapper(this.context), this);
@@ -388,7 +400,7 @@ public class HudViewController extends ViewController
 	            	
 	            	
 	        		Log.e(TAG, "rudderThrottleListener onChanged x:" + x + "y:" + y);
-	        		
+	        		trottleTextView.setText(String.valueOf(y));
 	        		
 	        		if (settings.isBeginnerMode()) {
 	        			rudderChannel.setValue(x * BEGINNER_RUDDER_CHANNEL_RATIO);
@@ -805,7 +817,7 @@ public class HudViewController extends ViewController
                 aileronChannel.setValue(0.0f);
                 elevatorChannel.setValue(0.0f);
                 
-                Log.d(TAG, "before pressed ROLL:" + rollBase + ",PITCH:" + pitchBase);
+                //Log.d(TAG, "before pressed ROLL:" + rollBase + ",PITCH:" + pitchBase);
 	      }
 		  else {
 	            float x = (orientation[PITCH] - pitchBase);

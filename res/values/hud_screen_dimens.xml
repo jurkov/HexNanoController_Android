@@ -17,4 +17,7 @@
     <dimen name="hud_alt_hold_toggle_btn_margin_top">5dp</dimen>
     <dimen name="hud_alt_hold_toggle_btn_margin_left">10dp</dimen>
     <dimen name="hud_joy_margin">25dp</dimen> 
+    
+    <dimen name="hud_trottle_text_margin_top">150dp</dimen>
+    <dimen name="hud_trottle_text_margin_left">290dp</dimen>
 </resources>
